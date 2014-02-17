@@ -17,6 +17,13 @@ import se.sellboss.eam.domain.Asset;
 import se.sellboss.eam.domain.AssetType;
 import se.sellboss.eam.service.AssetService;
 
+/**
+ * Managed bean used when creating a new asset
+ * 
+ * 
+ * @author Martin
+ *
+ */
 @Component
 @Scope("session")
 public class AssetDetailsBean {
@@ -31,6 +38,9 @@ public class AssetDetailsBean {
 	private Asset asset;
 	private Map<String, String> assetTypeMap;
 
+	/**
+	 * Populate map of asset types from db after bean construction.
+	 */
 	@PostConstruct
 	public void init() {
 		assetTypeMap = new TreeMap<String, String>();
@@ -42,8 +52,9 @@ public class AssetDetailsBean {
 	public void doSave(ActionEvent event) {
 
 		try {
-			assetService.saveProduct(asset);
+			assetService.saveAsset(asset);
 
+			//Print growl message on success.
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Save Successful!"));
 		} catch (DataAccessException e) {

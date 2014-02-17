@@ -4,7 +4,12 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
  
- 
+/**
+ * Util class for various helper methods.
+ *  
+ * @author Martin
+ *
+ */
 public class Util {
  
       public static HttpSession getSession() {

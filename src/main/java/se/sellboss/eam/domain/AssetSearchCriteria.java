@@ -1,5 +1,11 @@
-package se.sellboss.eam.view;
+package se.sellboss.eam.domain;
 
+/**
+ * Class to hold properties used when querying db.
+ * 
+ * @author Martin
+ *
+ */
 public class AssetSearchCriteria {
 	
 	private String assetId;

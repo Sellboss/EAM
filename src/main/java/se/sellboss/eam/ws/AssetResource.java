@@ -12,9 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import se.sellboss.eam.domain.Asset;
+import se.sellboss.eam.domain.AssetSearchCriteria;
 import se.sellboss.eam.service.AssetService;
-import se.sellboss.eam.view.AssetSearchCriteria;
 
+/**
+ * Providing REST interface with JSON data to AssetService.
+ * 
+ * 
+ * @author Martin
+ * 
+ */
 @Controller
 @Path("/asset")
 public class AssetResource {
@@ -22,6 +29,14 @@ public class AssetResource {
 	@Autowired
 	private AssetService assetService;
 
+	/**
+	 * Search providing id or part of name of asset. Returns an array of assets
+	 * in JSON-format.
+	 * 
+	 * @param id
+	 * @param name
+	 * @return
+	 */
 	@GET
 	@Path("/query")
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -40,6 +55,12 @@ public class AssetResource {
 		return assetList;
 	}
 
+	/**
+	 * Get asset using id. Returns a single asset as JSON-data.
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GET
 	@Path("/get")
 	@Produces({ MediaType.APPLICATION_JSON })

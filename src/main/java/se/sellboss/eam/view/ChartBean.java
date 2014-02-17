@@ -11,6 +11,12 @@ import org.primefaces.model.chart.PieChartModel;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+/**
+ * Bean used when creating dynamic Primefaces charts.
+ * 
+ * @author Martin
+ *
+ */
 @Component
 @Scope("session")
 public class ChartBean implements Serializable {

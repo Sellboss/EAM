@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import se.sellboss.eam.domain.Asset;
 import se.sellboss.eam.domain.AssetDataModel;
+import se.sellboss.eam.domain.AssetSearchCriteria;
 import se.sellboss.eam.domain.AssetType;
 import se.sellboss.eam.service.AssetService;
 

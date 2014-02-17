@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import se.sellboss.eam.domain.Asset;
+import se.sellboss.eam.domain.AssetSearchCriteria;
 import se.sellboss.eam.domain.AssetType;
 import se.sellboss.eam.repository.AssetRepository;
 import se.sellboss.eam.repository.AssetTypeRepository;
-import se.sellboss.eam.view.AssetSearchCriteria;
 
 @Service
 public class AssetService {
@@ -24,11 +24,11 @@ public class AssetService {
 		return assetRepository.searchByCriteria(criteria);
 	}
 
-	public void saveProduct(Asset p) {
+	public void saveAsset(Asset p) {
 		assetRepository.save(p);
 	}
 
-	public void deleteProduct(Asset p) {
+	public void deleteAsset(Asset p) {
 		assetRepository.delete(p);
 	}
 

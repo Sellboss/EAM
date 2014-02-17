@@ -2,6 +2,13 @@ package se.sellboss.eam.domain;
 
 import org.springframework.data.annotation.Id;
 
+/**
+ * 
+ * Domain class mapping to eam.user in MongoDB.
+ * 
+ * @author Martin
+ *
+ */
 public class User {
 
 	@Id

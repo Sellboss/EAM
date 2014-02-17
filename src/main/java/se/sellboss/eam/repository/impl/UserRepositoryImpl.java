@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.StringUtils;
 
 import se.sellboss.eam.domain.User;
+import se.sellboss.eam.domain.UserSearchCriteria;
 import se.sellboss.eam.repository.UserRepositoryCustom;
-import se.sellboss.eam.view.UserSearchCriteria;
 
 public class UserRepositoryImpl implements UserRepositoryCustom {
 

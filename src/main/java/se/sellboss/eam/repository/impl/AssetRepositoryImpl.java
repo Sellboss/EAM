@@ -9,14 +9,17 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.util.StringUtils;
 
 import se.sellboss.eam.domain.Asset;
+import se.sellboss.eam.domain.AssetSearchCriteria;
 import se.sellboss.eam.repository.AssetRepostitoryCustom;
-import se.sellboss.eam.view.AssetSearchCriteria;
 
 public class AssetRepositoryImpl implements AssetRepostitoryCustom {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
+	/**
+	 * Creates new AssetSearchCriteria and queries db.
+	 */
 	public List<Asset> searchByCriteria(AssetSearchCriteria criteria) {
 		Query query = new Query();
 		if (StringUtils.hasText(criteria.getAssetId())) {

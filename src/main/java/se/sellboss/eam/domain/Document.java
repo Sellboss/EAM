@@ -1,5 +1,12 @@
 package se.sellboss.eam.domain;
 
+/**
+ *
+ * Object used when creating Primefaces TreeTable.
+ * 
+ * @author Martin
+ *
+ */
 public class Document {
 
 	private String key;

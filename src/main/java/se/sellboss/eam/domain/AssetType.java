@@ -4,6 +4,13 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
+/**
+ * Domain class mapping to eam.assetType in MongoDB.
+ * 
+ * 
+ * @author Martin
+ *
+ */
 public class AssetType {
 
 	@Id

@@ -15,6 +15,13 @@ import org.springframework.stereotype.Component;
 import se.sellboss.eam.domain.User;
 import se.sellboss.eam.service.UserService;
 
+/**
+ * 
+ * Login bean for user data.
+ * 
+ * @author Martin
+ *
+ */
 @Component
 @Scope("session")
 public class LoginBean {

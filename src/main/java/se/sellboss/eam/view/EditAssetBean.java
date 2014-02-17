@@ -16,12 +16,21 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import se.sellboss.eam.domain.Asset;
+import se.sellboss.eam.domain.AssetSearchCriteria;
 import se.sellboss.eam.domain.Document;
 import se.sellboss.eam.service.AssetService;
 
+/**
+ * Bean used when editing an existing asset.
+ * 
+ * @author Martin
+ * 
+ */
 @Component
 @Scope("view")
-public class EditAssetBean implements Serializable{
+// Custom Spring scope defined in spring context. Created to match JSF view
+// scope.
+public class EditAssetBean implements Serializable {
 
 	/**
 	 * 
@@ -36,6 +45,11 @@ public class EditAssetBean implements Serializable{
 	private TreeNode root;
 	private TreeNode selectedNode;
 
+	/**
+	 * After bean construction, get 'assetId' set in request, perform a fetch
+	 * from db and get the selected asset, then populate the model for
+	 * TreeTable.
+	 */
 	@PostConstruct
 	public void init() {
 		Map<String, String> params = FacesContext.getCurrentInstance()
@@ -52,6 +66,7 @@ public class EditAssetBean implements Serializable{
 
 		root = new DefaultTreeNode("root", null);
 
+		// Set all static asset properties.
 		TreeNode id = new DefaultTreeNode(new Document("Id", asset.getId(),
 				asset.getId().getClass().getSimpleName().toString()), root);
 		TreeNode name = new DefaultTreeNode(new Document("Name",
@@ -80,16 +95,20 @@ public class EditAssetBean implements Serializable{
 				"Asset details", "", asset.getAssetDetails().getClass()
 						.getSimpleName().toString()), root);
 
+		// Start iterating objects in assetDetails.
 		Iterator iterator = asset.getAssetDetails().entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry mapEntry = (Map.Entry) iterator.next();
 
+			// If String, set the key and value.
 			if (mapEntry.getValue() instanceof String) {
 				TreeNode stringNode = new DefaultTreeNode(new Document(mapEntry
 						.getKey().toString(), mapEntry.getValue().toString(),
 						mapEntry.getValue().getClass().getSimpleName()),
 						assetDetails);
 
+				// If Array, set the key and create String to set the Array
+				// strings.
 			} else if (mapEntry.getValue() instanceof ArrayList) {
 
 				StringBuilder prettyList = new StringBuilder();
@@ -101,6 +120,8 @@ public class EditAssetBean implements Serializable{
 						.getKey().toString(), prettyList.toString(), mapEntry
 						.getValue().getClass().getSimpleName()), assetDetails);
 
+				// If LinkedHashMap, set the key and look for children (only
+				// strings).
 			} else if (mapEntry.getValue() instanceof LinkedHashMap) {
 
 				TreeNode nodeMap = new DefaultTreeNode(new Document(mapEntry
@@ -109,10 +130,10 @@ public class EditAssetBean implements Serializable{
 
 				for (Map.Entry<String, String> entry : ((Map<String, String>) mapEntry
 						.getValue()).entrySet()) {
-					TreeNode stringNode = new DefaultTreeNode(new Document(entry
-							.getKey().toString(), entry.getValue().toString(),
-							entry.getValue().getClass().getSimpleName()),
-							nodeMap);
+					TreeNode stringNode = new DefaultTreeNode(new Document(
+							entry.getKey().toString(), entry.getValue()
+									.toString(), entry.getValue().getClass()
+									.getSimpleName()), nodeMap);
 				}
 
 			}

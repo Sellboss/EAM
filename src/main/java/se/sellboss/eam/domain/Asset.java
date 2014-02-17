@@ -5,6 +5,14 @@ import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 
+/**
+ * Domain class mapping to the collection eam.asset in MongoDB.
+ * 
+ * 
+ * @author Martin
+ *
+ */
+
 public class Asset {
 
 	@Id
