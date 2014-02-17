@@ -47,7 +47,7 @@
 			<p:treeTable value="#{editAssetBean.root}" var="document"
 				selection="#{editAssetBean.selectedNode}" selectionMode="single">
 
-				<p:ajax event="select" update=":editForm:value" />
+				<p:ajax event="select" update=":editForm:editPanel" />
 
 				<f:facet name="header">
 					<h:outputText value="Edit asset" />
