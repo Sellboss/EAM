@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="/template/common.xhtml">
+
+	<ui:define name="pageTitle">
+		<h:outputText value="Asset Management" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="searchForm">
+			<p:growl id="mainGrowl" sticky="true" />
+			<p:panelGrid style="width:800px">
+				<f:facet name="header">
+					<p:row>
+						<p:column style="text-align:right">Logged in as: #{loginBean.uname} (<h:commandLink
+								action="#{loginBean.logout}" value="Logout" />)
+							<h:selectOneMenu
+								onchange="window.location=this.options[this.selectedIndex].value">
+								<f:selectItem itemLabel="Administration menu" itemValue="" />
+								<f:selectItem itemLabel="Users"
+									itemValue="/EAM/protected/admin/users.xhtml" />
+							</h:selectOneMenu>
+						</p:column>
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+
+			<p:tabMenu activeIndex="1">
+				<p:menuitem value="Dashboard"
+					url="${pageContext.request.contextPath}/protected/dashboard.xhtml"
+					icon="ui-icon-star" />
+				<p:menuitem value="Search"
+					url="${pageContext.request.contextPath}/protected/search.xhtml"
+					icon="ui-icon-search" />
+				<p:menuitem value="Add new"
+					url="${pageContext.request.contextPath}/protected/create.xhtml"
+					icon="ui-icon-disk" />
+			</p:tabMenu>
+
+			<p:dataTable id="dataTable" var="asset"
+				value="#{assetSearchBean.assetDataModel}" widgetVar="assetTable"
+				emptyMessage="No assets found with given criteria" paginator="false"
+				rows="20" selection="#{assetSearchBean.selectedAsset}"
+				selectionMode="single">
+
+				<p:ajax event="rowSelect"
+					update=":searchForm:display, :searchForm:dialog, :searchForm:editButton"
+					oncomplete="PF('assetDialog').show()" />
+
+				<f:facet name="header">
+					<p:outputPanel style="width:200px;">
+						<p:inputText id="name"
+							value="#{assetSearchBean.assetCriteria.assetName}" />
+						<p:commandButton value="search" icon="ui-icon-search"
+							actionListener="#{assetSearchBean.doSearchAsset}"
+							update="dataTable" />
+					</p:outputPanel>
+				</f:facet>
+
+				<ui:remove>
+					<p:column style="font-size:12px;">
+						<f:facet name="header">
+							<h:outputText value="ID" />
+						</f:facet>
+						<h:outputText value="#{asset.id}" />
+					</p:column>
+				</ui:remove>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="Name" />
+					</f:facet>
+					<h:outputText value="#{asset.assetName}" />
+				</p:column>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="Type" />
+					</f:facet>
+					<h:outputText
+						value="#{assetSearchBean.getAssetTypeValue(asset.assetType)}" />
+				</p:column>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="State" />
+					</f:facet>
+					<h:outputText value="#{asset.assetState}" />
+				</p:column>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="Created By" />
+					</f:facet>
+					<h:outputText value="#{asset.createdBy}" />
+				</p:column>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="Date Created" />
+					</f:facet>
+					<h:outputText value="#{asset.createdDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd" />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="Modified By" />
+					</f:facet>
+					<h:outputText value="#{asset.modifiedBy}" />
+				</p:column>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="Date Modified" />
+					</f:facet>
+					<h:outputText value="#{asset.modifiedDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog id="dialog" header="Asset Details" widgetVar="assetDialog"
+				resizable="true" showEffect="fade" hideEffect="fade">
+
+				<p:tree value="#{assetSearchBean.root}" var="node" id="display"
+					style="width:600px;">
+					<p:treeNode id="treeNode">
+						<h:outputText value="#{node}" id="lblNode" escape="false" />
+					</p:treeNode>
+				</p:tree>
+				<p:button id="editButton" outcome="editAsset" value="Edit"
+					icon="ui-icon-pencil">
+					<f:param name="assetId" value="#{assetSearchBean.selectedAsset.id}" />
+				</p:button>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

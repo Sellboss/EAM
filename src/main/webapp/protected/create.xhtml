@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/common.xhtml">
+
+	<ui:define name="pageTitle">
+		<h:outputText value="Add new asset" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="searchForm">
+			<p:growl id="mainGrowl" sticky="true" />
+			<p:panelGrid style="width:800px">
+				<f:facet name="header">
+					<p:row>
+						<p:column style="text-align:right">Logged in as: #{loginBean.uname} (<h:commandLink action="#{loginBean.logout}" value="Logout" />)
+							<h:selectOneMenu
+								onchange="window.location=this.options[this.selectedIndex].value">
+								<f:selectItem itemLabel="Administration menu" itemValue="" />
+								<f:selectItem itemLabel="Users" itemValue="/EAM/protected/admin/users.xhtml" />
+							</h:selectOneMenu>
+						</p:column>
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+
+			<ui:remove>
+				<p:commandButton value="search" icon="ui-icon-search"
+					actionListener="#{productSearchBean.doSearchAsset}"
+					update="dataTable" />
+			</ui:remove>
+
+			<p:tabMenu activeIndex="2">
+				<p:menuitem value="Dashboard"
+					url="${pageContext.request.contextPath}/protected/dashboard.xhtml"
+					icon="ui-icon-star" />
+				<p:menuitem value="Search"
+					url="${pageContext.request.contextPath}/protected/search.xhtml"
+					icon="ui-icon-search" />
+				<p:menuitem value="Add new"
+					url="${pageContext.request.contextPath}/protected/create.xhtml"
+					icon="ui-icon-disk" />
+			</p:tabMenu>
+			<p:panelGrid style="width:400px">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="2">
+							<h:outputText value="Asset details" />
+						</p:column>
+					</p:row>
+
+				</f:facet>
+				<p:row>
+					<p:column>
+						<h:outputLabel for="Id" value="ID: *" />
+					</p:column>
+					<p:column>
+						<p:inputText id="Id" required="true"
+							value="#{assetDetailsBean.asset.id}" label="Id" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputLabel for="name" value="Name: *" />
+					</p:column>
+					<p:column>
+						<p:inputText id="Name" required="true"
+							value="#{assetDetailsBean.asset.assetName}" label="Name" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputLabel for="type" value="Type *" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="type" required="true" label="Type"
+							value="#{assetDetailsBean.asset.assetType}">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItems value="#{assetDetailsBean.assetTypeMap}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel for="State" value="State: *" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="State" required="true" label="State"
+							value="#{assetDetailsBean.asset.assetState}">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Valid" itemValue="Valid" />
+							<f:selectItem itemLabel="Invalid" itemValue="Invalid" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel for="CreatedBy" value="Created by: *" />
+					</p:column>
+					<p:column>
+						<p:inputText id="CreatedBy" required="true"
+							value="#{assetDetailsBean.asset.createdBy}" label="CreatedBy" />
+					</p:column>
+				</p:row>
+
+				<f:facet name="footer">
+					<p:row>
+						<p:column colspan="2">
+							<p:commandButton value="Save" icon="ui-icon-disk"
+								actionListener="#{assetDetailsBean.doSave}" update="mainGrowl"
+								ajax="false" />
+						</p:column>
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+</html>

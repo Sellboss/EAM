@@ -1,0 +1,102 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/common.xhtml">
+	<f:metadata>
+		<f:viewParam name="assetId" value="#{editAssetBean.assetId}" />
+	</f:metadata>
+
+	<ui:define name="pageTitle">
+		<h:outputText value="Edit asset" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="editForm">
+			<p:growl id="mainGrowl" sticky="true" />
+			<p:panelGrid style="width:800px">
+				<f:facet name="header">
+					<p:row>
+						<p:column style="text-align:right">Logged in as: #{loginBean.uname} (<h:commandLink
+								action="#{loginBean.logout}" value="Logout" />)
+							<h:selectOneMenu
+								onchange="window.location=this.options[this.selectedIndex].value">
+								<f:selectItem itemLabel="Administration menu" itemValue="" />
+								<f:selectItem itemLabel="Users"
+									itemValue="/EAM/protected/admin/users.xhtml" />
+							</h:selectOneMenu>
+						</p:column>
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+
+			<p:tabMenu activeIndex="1">
+				<p:menuitem value="Dashboard"
+					url="${pageContext.request.contextPath}/protected/dashboard.xhtml"
+					icon="ui-icon-star" />
+				<p:menuitem value="Search"
+					url="${pageContext.request.contextPath}/protected/search.xhtml"
+					icon="ui-icon-search" />
+				<p:menuitem value="Add new"
+					url="${pageContext.request.contextPath}/protected/create.xhtml"
+					icon="ui-icon-disk" />
+			</p:tabMenu>
+
+			<p:treeTable value="#{editAssetBean.root}" var="document"
+				selection="#{editAssetBean.selectedNode}" selectionMode="single">
+
+				<p:ajax event="select" update=":editForm:value" />
+
+				<f:facet name="header">
+					<h:outputText value="Edit asset" />
+				</f:facet>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="Key" />
+					</f:facet>
+					<h:outputText value="#{document.key}" />
+				</p:column>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="Value" />
+					</f:facet>
+					<h:outputText value="#{document.value}" />
+				</p:column>
+
+				<p:column style="font-size:12px;">
+					<f:facet name="header">
+						<h:outputText value="Type" />
+					</f:facet>
+					<h:outputText value="#{document.type}" />
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton id="singleBtn" value="Edit selected"
+						update=":editForm:documentPanel"
+						oncomplete="PF('documentDialog').show()" />
+				</f:facet>
+			</p:treeTable>
+			<p:dialog id="dialog" header="Edit" showEffect="fade"
+				hideEffect="fade" widgetVar="documentDialog">
+				<p:outputPanel id="documentPanel">
+					<h:panelGrid id="editPanel" columns="2" cellpadding="5"
+						rendered="#{not empty editAssetBean.selectedNode}">
+						<h:outputLabel for="key" value="Key: " />
+						<h:outputText id="key"
+							value="#{editAssetBean.selectedNode.data.key}" />
+
+						<h:outputLabel for="value" value="Value: " />
+						<p:inputText id="value"
+							value="#{editAssetBean.selectedNode.data.value}" size="30" />
+						<p:commandButton id="saveButton" value="Save (TODO)" />
+					</h:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

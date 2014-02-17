@@ -1,0 +1,139 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/common.xhtml">
+
+	<ui:define name="pageTitle">
+		<h:outputText value="Users" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="userForm">
+			<p:growl id="mainGrowl" sticky="true" />
+			<p:panelGrid style="width:800px">
+				<f:facet name="header">
+					<p:row>
+						<p:column style="text-align:right">Logged in as: #{loginBean.uname} (<h:commandLink action="#{loginBean.logout}" value="Logout" />)
+							<h:selectOneMenu
+								onchange="window.location=this.options[this.selectedIndex].value">
+								<f:selectItem itemLabel="Administration menu" itemValue="" />
+								<f:selectItem itemLabel="Users" itemValue="/EAM/protected/admin/users.xhtml" />
+							</h:selectOneMenu>
+						</p:column>
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+
+			<ui:remove>
+				<p:commandButton value="search" icon="ui-icon-search"
+					actionListener="#{productSearchBean.doSearchAsset}"
+					update="dataTable" />
+			</ui:remove>
+
+			<p:tabMenu activeIndex="99">
+				<p:menuitem value="Dashboard"
+					url="${pageContext.request.contextPath}/protected/dashboard.xhtml"
+					icon="ui-icon-star" />
+				<p:menuitem value="Search"
+					url="${pageContext.request.contextPath}/protected/search.xhtml"
+					icon="ui-icon-search" />
+				<p:menuitem value="Add new"
+					url="${pageContext.request.contextPath}/protected/create.xhtml"
+					icon="ui-icon-disk" />
+			</p:tabMenu>
+
+			<p:layout style="width:800px;height:600px;" id="layout">
+				<p:layoutUnit position="west" resizable="false" size="400"
+					style="border:none;">
+					<p:dataTable id="dataTable" var="user"
+						value="#{loginBean.allUsers}" style="width:380px">
+
+						<f:facet name="header">Users</f:facet>
+
+						<p:column style="font-size:12px;">
+							<f:facet name="header">
+								<h:outputText value="Name" />
+							</f:facet>
+							<h:outputText value="#{user.username}" />
+						</p:column>
+
+						<p:column style="font-size:12px;">
+							<f:facet name="header">
+								<h:outputText value="Password" />
+							</f:facet>
+							<h:outputText value="*****" />
+						</p:column>
+
+						<p:column style="font-size:12px;">
+							<f:facet name="header">
+								<h:outputText value="Administrator rights" />
+							</f:facet>
+							<h:outputText value="#{user.administrator}" />
+						</p:column>
+					</p:dataTable>
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center" style="border:none;">
+
+					<p:panelGrid style="width:380px">
+						<f:facet name="header">
+							<p:row>
+								<p:column colspan="2">
+									<h:outputText value="Add new user" />
+								</p:column>
+							</p:row>
+
+						</f:facet>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="Username" value="Username: *" />
+							</p:column>
+							<p:column>
+								<p:inputText id="Username" required="true"
+									value="#{loginBean.newUser.username}" label="Username" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="Password" value="Password: *" />
+							</p:column>
+							<p:column>
+								<p:inputText id="Password" required="true"
+									value="#{loginBean.newUser.password}" label="Password" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputLabel for="Admin" value="Administrator *" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="Admin" required="true" label="Admin"
+									value="#{loginBean.newUser.administrator}">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItem itemLabel="true" itemValue="true" />
+									<f:selectItem itemLabel="false" itemValue="false" />
+								</p:selectOneMenu>
+							</p:column>
+						</p:row>
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="2">
+									<p:commandButton value="Save" icon="ui-icon-disk"
+										actionListener="#{loginBean.doSaveUser}" update="mainGrowl"
+										ajax="false" />
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+				</p:layoutUnit>
+			</p:layout>
+
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
