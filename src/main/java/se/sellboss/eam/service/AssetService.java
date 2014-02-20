@@ -32,6 +32,10 @@ public class AssetService {
 		assetRepository.delete(p);
 	}
 
+	public void updateAsset(String id, String key, String value) {
+		assetRepository.updateAsset(id, key, value);
+	}
+
 	public List<Asset> getAll() {
 		return (List<Asset>) assetRepository.findAll();
 	}

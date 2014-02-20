@@ -44,10 +44,11 @@
 					icon="ui-icon-disk" />
 			</p:tabMenu>
 
-			<p:treeTable value="#{editAssetBean.root}" var="document"
-				selection="#{editAssetBean.selectedNode}" selectionMode="single">
+			<p:treeTable id="treeTable" value="#{editAssetBean.root}"
+				var="document" selection="#{editAssetBean.selectedNode}"
+				selectionMode="single" >
 
-				<p:ajax event="select" update=":editForm:editPanel" />
+				<p:ajax event="select" update=":editForm" />
 
 				<f:facet name="header">
 					<h:outputText value="Edit asset" />
@@ -74,28 +75,17 @@
 					<h:outputText value="#{document.type}" />
 				</p:column>
 				<f:facet name="footer">
-					<p:commandButton id="singleBtn" value="Edit selected"
-						update=":editForm:documentPanel"
-						oncomplete="PF('documentDialog').show()" />
 				</f:facet>
 			</p:treeTable>
-			<p:dialog id="dialog" header="Edit" showEffect="fade"
-				hideEffect="fade" widgetVar="documentDialog">
-				<p:outputPanel id="documentPanel">
-					<h:panelGrid id="editPanel" columns="2" cellpadding="5"
-						rendered="#{not empty editAssetBean.selectedNode}">
-						<h:outputLabel for="key" value="Key: " />
-						<h:outputText id="key"
-							value="#{editAssetBean.selectedNode.data.key}" />
-
-						<h:outputLabel for="value" value="Value: " />
-						<p:inputText id="value"
-							value="#{editAssetBean.selectedNode.data.value}" size="30" />
-						<p:commandButton id="saveButton" value="Save (TODO)" />
-					</h:panelGrid>
-				</p:outputPanel>
-			</p:dialog>
-
+			<h:panelGrid id="editValuePanel" columns="2" cellpadding="2"
+				rendered="#{not empty editAssetBean.selectedNode}">
+				<h:outputText id="keyEdit"
+					value="#{editAssetBean.selectedNode.data.key}" />
+				<p:inputText id="valueEdit"
+					value="#{editAssetBean.selectedNode.data.value}" size="50" />
+				<p:commandButton value="Save" icon="ui-icon-disk"
+					actionListener="#{editAssetBean.doSave}" update="treeTable" />
+			</h:panelGrid>
 		</h:form>
 	</ui:define>
 </ui:composition>

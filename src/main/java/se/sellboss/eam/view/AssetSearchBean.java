@@ -25,7 +25,9 @@ import se.sellboss.eam.domain.AssetType;
 import se.sellboss.eam.service.AssetService;
 
 @Component
-@Scope("session")
+@Scope("view")
+// Custom Spring scope defined in spring context. Created to match JSF view
+// scope.
 public class AssetSearchBean {
 
 	@Autowired
