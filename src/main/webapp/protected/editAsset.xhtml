@@ -14,6 +14,17 @@
 	</ui:define>
 
 	<ui:define name="content">
+
+		<p:ajaxStatus style="width:20px;height:20px;position:fixed;right:50%;bottom:100px;" id="ajaxStatusPanel">
+			<f:facet name="start">
+				<h:graphicImage value="/resources/image/loading20px.gif" />
+			</f:facet>
+
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+
 		<h:form id="editForm">
 			<p:growl id="mainGrowl" sticky="true" />
 			<p:panelGrid style="width:800px">
@@ -97,7 +108,8 @@
 					<br></br>
 				</ui:repeat>
 				<p:commandButton value="Save" icon="ui-icon-disk"
-					actionListener="#{editAssetBean.doSave}" update="treeTable" style="font-size:8px"/>
+					actionListener="#{editAssetBean.doSave}" update="treeTable"
+					style="font-size:8px" />
 			</h:panelGrid>
 		</h:form>
 	</ui:define>

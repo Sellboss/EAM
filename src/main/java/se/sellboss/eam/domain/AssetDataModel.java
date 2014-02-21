@@ -1,5 +1,6 @@
 package se.sellboss.eam.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.model.ListDataModel;
@@ -7,7 +8,12 @@ import javax.faces.model.ListDataModel;
 import org.primefaces.model.SelectableDataModel;
 
 public class AssetDataModel extends ListDataModel<Asset> implements
-		SelectableDataModel<Asset> {
+		SelectableDataModel<Asset>, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public AssetDataModel() {
 	}
