@@ -1,13 +1,19 @@
 package se.sellboss.eam.domain;
 
+import java.io.Serializable;
+
 /**
  * Class to hold properties used when querying db.
  * 
  * @author Martin
  *
  */
-public class AssetSearchCriteria {
+public class AssetSearchCriteria implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String assetId;
 	private String assetName;
 

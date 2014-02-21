@@ -46,7 +46,7 @@
 
 			<p:treeTable id="treeTable" value="#{editAssetBean.root}"
 				var="document" selection="#{editAssetBean.selectedNode}"
-				selectionMode="single" >
+				selectionMode="single">
 
 				<p:ajax event="select" update=":editForm" />
 
@@ -65,7 +65,12 @@
 					<f:facet name="header">
 						<h:outputText value="Value" />
 					</f:facet>
-					<h:outputText value="#{document.value}" />
+					<h:outputText value="#{document.value}"
+						rendered="#{document.type eq 'String' || document.type eq 'Date'}" />
+					<ui:repeat value="#{document.arrayValues}" var="value"
+						rendered="#{document.type eq 'ArrayList'}">
+						[<h:outputText value="#{value}" />]&#160;
+					</ui:repeat>
 				</p:column>
 
 				<p:column style="font-size:12px;">
@@ -77,14 +82,22 @@
 				<f:facet name="footer">
 				</f:facet>
 			</p:treeTable>
-			<h:panelGrid id="editValuePanel" columns="2" cellpadding="2"
+			<h:panelGrid id="editValuePanel" columns="3" cellpadding="2"
 				rendered="#{not empty editAssetBean.selectedNode}">
 				<h:outputText id="keyEdit"
 					value="#{editAssetBean.selectedNode.data.key}" />
 				<p:inputText id="valueEdit"
-					value="#{editAssetBean.selectedNode.data.value}" size="50" />
+					value="#{editAssetBean.selectedNode.data.value}" size="30"
+					rendered="#{editAssetBean.getNodeType() eq 'String'}" />
+				<ui:repeat value="#{editAssetBean.selectedNode.data.arrayValues}"
+					var="value" varStatus="status"
+					rendered="#{editAssetBean.getNodeType() eq 'ArrayList'}">
+					<p:inputText
+						value="#{editAssetBean.selectedNode.data.arrayValues[status.index]}" />
+					<br></br>
+				</ui:repeat>
 				<p:commandButton value="Save" icon="ui-icon-disk"
-					actionListener="#{editAssetBean.doSave}" update="treeTable" />
+					actionListener="#{editAssetBean.doSave}" update="treeTable" style="font-size:8px"/>
 			</h:panelGrid>
 		</h:form>
 	</ui:define>

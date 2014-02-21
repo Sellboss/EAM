@@ -52,6 +52,16 @@ public class AssetRepositoryImpl implements AssetRepostitoryCustom {
 		Update update = new Update().set(key, value);
 
 		WriteResult result = mongoTemplate.updateFirst(query, update, "asset");
-		
+
 	}
+
+	public void updateAssetArray(String id, String key, List<String> arrayValues) {
+
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(id));
+
+		Update update = new Update().set(key, arrayValues);
+		WriteResult result = mongoTemplate.updateFirst(query, update, "asset");
+	}
+
 }

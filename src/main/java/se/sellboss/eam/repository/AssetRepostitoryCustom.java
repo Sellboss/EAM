@@ -10,4 +10,6 @@ public interface AssetRepostitoryCustom {
 
 	public void updateAsset(String id, String key, String value);
 
+	public void updateAssetArray(String id, String key, List<String> arrayValues);
+
 }

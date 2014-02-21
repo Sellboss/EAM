@@ -75,32 +75,36 @@ public class EditAssetBean implements Serializable {
 
 		// Set all static asset properties.
 		TreeNode id = new DefaultTreeNode(new Document("id", asset.getId(),
-				asset.getId().getClass().getSimpleName().toString()), root);
+				asset.getId().getClass().getSimpleName().toString(), null),
+				root);
+		id.setSelectable(false);
 		TreeNode name = new DefaultTreeNode(new Document("assetName",
 				asset.getAssetName(), asset.getAssetName().getClass()
-						.getSimpleName().toString()), root);
+						.getSimpleName().toString(), null), root);
 		TreeNode type = new DefaultTreeNode(new Document("assetType",
 				asset.getAssetType(), asset.getAssetType().getClass()
-						.getSimpleName().toString()), root);
+						.getSimpleName().toString(), null), root);
 		TreeNode state = new DefaultTreeNode(new Document("assetState",
 				asset.getAssetState(), asset.getAssetState().getClass()
-						.getSimpleName().toString()), root);
+						.getSimpleName().toString(), null), root);
 		TreeNode createdBy = new DefaultTreeNode(new Document("createdBy",
 				asset.getCreatedBy(), asset.getCreatedBy().getClass()
-						.getSimpleName().toString()), root);
+						.getSimpleName().toString(), null), root);
 		TreeNode createdDate = new DefaultTreeNode(new Document("createdDate",
 				asset.getCreatedDate().toString(), asset.getCreatedDate()
-						.getClass().getSimpleName().toString()), root);
+						.getClass().getSimpleName().toString(), null), root);
+		createdDate.setSelectable(false);
 		TreeNode modifiedBy = new DefaultTreeNode(new Document("modifiedBy",
 				asset.getModifiedBy(), asset.getModifiedBy().getClass()
-						.getSimpleName().toString()), root);
+						.getSimpleName().toString(), null), root);
 		TreeNode modifiedDate = new DefaultTreeNode(new Document(
 				"modifiedDate", asset.getModifiedDate().toString(), asset
 						.getModifiedDate().getClass().getSimpleName()
-						.toString()), root);
+						.toString(), null), root);
+		modifiedDate.setSelectable(false);
 		TreeNode assetDetails = new DefaultTreeNode(new Document(
 				"assetDetails", "", asset.getAssetDetails().getClass()
-						.getSimpleName().toString()), root);
+						.getSimpleName().toString(), null), root);
 		assetDetails.setSelectable(false);
 		assetDetails.setExpanded(true);
 
@@ -113,21 +117,21 @@ public class EditAssetBean implements Serializable {
 			if (mapEntry.getValue() instanceof String) {
 				TreeNode stringNode = new DefaultTreeNode(new Document(mapEntry
 						.getKey().toString(), mapEntry.getValue().toString(),
-						mapEntry.getValue().getClass().getSimpleName()),
+						mapEntry.getValue().getClass().getSimpleName(), null),
 						assetDetails);
 
 				// If Array, set the key and create String to set the Array
 				// strings.
 			} else if (mapEntry.getValue() instanceof ArrayList) {
 
-				StringBuilder prettyList = new StringBuilder();
+				List<String> values = new ArrayList<String>();
 
 				for (String str : (ArrayList<String>) mapEntry.getValue()) {
-					prettyList.append(str + ", ");
+					values.add(str);
 				}
 				TreeNode arrayNode = new DefaultTreeNode(new Document(mapEntry
-						.getKey().toString(), prettyList.toString(), mapEntry
-						.getValue().getClass().getSimpleName()), assetDetails);
+						.getKey().toString(), null, mapEntry.getValue()
+						.getClass().getSimpleName(), values), assetDetails);
 
 				// If LinkedHashMap, set the key and look for children (only
 				// strings).
@@ -135,7 +139,8 @@ public class EditAssetBean implements Serializable {
 
 				TreeNode nodeMap = new DefaultTreeNode(new Document(mapEntry
 						.getKey().toString(), "", mapEntry.getValue()
-						.getClass().getSimpleName().toString()), assetDetails);
+						.getClass().getSimpleName().toString(), null),
+						assetDetails);
 				nodeMap.setSelectable(false);
 				nodeMap.setExpanded(true);
 
@@ -144,7 +149,7 @@ public class EditAssetBean implements Serializable {
 					TreeNode stringNode = new DefaultTreeNode(new Document(
 							entry.getKey().toString(), entry.getValue()
 									.toString(), entry.getValue().getClass()
-									.getSimpleName()), nodeMap);
+									.getSimpleName(), null), nodeMap);
 				}
 
 			}
@@ -158,8 +163,14 @@ public class EditAssetBean implements Serializable {
 			Document doc = (Document) selectedNode.getData();
 
 			if (selectedNode.getParent().getData().equals("root")) {
-				assetService.updateAsset(asset.getId(), doc.getKey(),
-						doc.getValue());
+				if (doc.getType().equals("String")) {
+					assetService.updateAsset(asset.getId(), doc.getKey(),
+							doc.getValue());
+				} else if (doc.getType().equals("ArrayList")) {
+					assetService.updateAssetArray(asset.getId(), doc.getKey(),
+							doc.getArrayValues());
+				}
+
 			} else {
 
 				List<String> keyList = new ArrayList<String>();
@@ -177,12 +188,30 @@ public class EditAssetBean implements Serializable {
 				}
 				keyString.append(doc.getKey());
 				String key = keyString.toString();
-				assetService.updateAsset(asset.getId(), key, doc.getValue());
+
+				if (doc.getType().equals("String")) {
+					assetService
+							.updateAsset(asset.getId(), key, doc.getValue());
+				} else if (doc.getType().equals("ArrayList")) {
+					assetService.updateAssetArray(asset.getId(), key,
+							doc.getArrayValues());
+				}
+
 			}
 
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String getNodeType() {
+
+		String type = "";
+
+		if (null != selectedNode) {
+			type = ((Document) selectedNode.getData()).getType();
+		}
+		return type;
 	}
 
 	public String getAssetId() {

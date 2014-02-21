@@ -35,6 +35,10 @@ public class AssetService {
 	public void updateAsset(String id, String key, String value) {
 		assetRepository.updateAsset(id, key, value);
 	}
+	
+	public void updateAssetArray(String id, String key, List<String> arrayValues){
+		assetRepository.updateAssetArray(id, key, arrayValues);
+	}
 
 	public List<Asset> getAll() {
 		return (List<Asset>) assetRepository.findAll();

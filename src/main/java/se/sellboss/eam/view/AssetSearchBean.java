@@ -1,5 +1,6 @@
 package se.sellboss.eam.view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -28,7 +29,12 @@ import se.sellboss.eam.service.AssetService;
 @Scope("view")
 // Custom Spring scope defined in spring context. Created to match JSF view
 // scope.
-public class AssetSearchBean {
+public class AssetSearchBean implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	private AssetService assetService;
