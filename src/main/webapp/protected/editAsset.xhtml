@@ -13,9 +13,15 @@
 		<h:outputText value="Edit asset" />
 	</ui:define>
 
+	<ui:define name="pageHeader">
+		<h:outputText value="#{editAssetBean.asset.assetName}" />
+	</ui:define>
+
 	<ui:define name="content">
 
-		<p:ajaxStatus style="width:20px;height:20px;position:fixed;right:50%;bottom:100px;" id="ajaxStatusPanel">
+		<p:ajaxStatus
+			style="width:20px;height:20px;position:fixed;right:50%;bottom:100px;"
+			id="ajaxStatusPanel">
 			<f:facet name="start">
 				<h:graphicImage value="/resources/image/loading20px.gif" />
 			</f:facet>
@@ -26,34 +32,6 @@
 		</p:ajaxStatus>
 
 		<h:form id="editForm">
-			<p:growl id="mainGrowl" sticky="true" />
-			<p:panelGrid style="width:800px">
-				<f:facet name="header">
-					<p:row>
-						<p:column style="text-align:right">Logged in as: #{loginBean.uname} (<h:commandLink
-								action="#{loginBean.logout}" value="Logout" />)
-							<h:selectOneMenu
-								onchange="window.location=this.options[this.selectedIndex].value">
-								<f:selectItem itemLabel="Administration menu" itemValue="" />
-								<f:selectItem itemLabel="Users"
-									itemValue="/EAM/protected/admin/users.xhtml" />
-							</h:selectOneMenu>
-						</p:column>
-					</p:row>
-				</f:facet>
-			</p:panelGrid>
-
-			<p:tabMenu activeIndex="1">
-				<p:menuitem value="Dashboard"
-					url="${pageContext.request.contextPath}/protected/dashboard.xhtml"
-					icon="ui-icon-star" />
-				<p:menuitem value="Search"
-					url="${pageContext.request.contextPath}/protected/search.xhtml"
-					icon="ui-icon-search" />
-				<p:menuitem value="Add new"
-					url="${pageContext.request.contextPath}/protected/create.xhtml"
-					icon="ui-icon-disk" />
-			</p:tabMenu>
 
 			<p:treeTable id="treeTable" value="#{editAssetBean.root}"
 				var="document" selection="#{editAssetBean.selectedNode}"
@@ -72,7 +50,7 @@
 					<h:outputText value="#{document.key}" />
 				</p:column>
 
-				<p:column style="font-size:12px;">
+				<p:column style="font-size:12px;width:450px;">
 					<f:facet name="header">
 						<h:outputText value="Value" />
 					</f:facet>
@@ -94,22 +72,26 @@
 				</f:facet>
 			</p:treeTable>
 			<h:panelGrid id="editValuePanel" columns="3" cellpadding="2"
+				style="margin-top:10px;"
 				rendered="#{not empty editAssetBean.selectedNode}">
 				<h:outputText id="keyEdit"
-					value="#{editAssetBean.selectedNode.data.key}" />
-				<p:inputText id="valueEdit"
+					value="#{editAssetBean.selectedNode.data.key}"
+					style="margin-right:10px;" />
+				<h:inputText id="valueEdit"
 					value="#{editAssetBean.selectedNode.data.value}" size="30"
-					rendered="#{editAssetBean.getNodeType() eq 'String'}" />
+					rendered="#{editAssetBean.getNodeType() eq 'String'}"
+					style="margin-right:10px;" />
 				<ui:repeat value="#{editAssetBean.selectedNode.data.arrayValues}"
 					var="value" varStatus="status"
 					rendered="#{editAssetBean.getNodeType() eq 'ArrayList'}">
-					<p:inputText
-						value="#{editAssetBean.selectedNode.data.arrayValues[status.index]}" />
+					<h:inputText
+						value="#{editAssetBean.selectedNode.data.arrayValues[status.index]}"
+						style="margin-right:10px;" />
 					<br></br>
 				</ui:repeat>
 				<p:commandButton value="Save" icon="ui-icon-disk"
 					actionListener="#{editAssetBean.doSave}" update="treeTable"
-					style="font-size:8px" />
+					style="font-size:12px" />
 			</h:panelGrid>
 		</h:form>
 	</ui:define>

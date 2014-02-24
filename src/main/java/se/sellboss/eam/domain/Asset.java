@@ -1,9 +1,11 @@
 package se.sellboss.eam.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 /**
  * Domain class mapping to the collection eam.asset in MongoDB.
@@ -13,8 +15,13 @@ import org.springframework.data.annotation.Id;
  *
  */
 
-public class Asset {
+public class Asset  implements Serializable{
 
+	/**
+	 * 
+	 */
+	@Transient
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String id;
 	private String assetName;

@@ -1,5 +1,6 @@
 package se.sellboss.eam.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,12 @@ import se.sellboss.eam.repository.AssetRepository;
 import se.sellboss.eam.repository.AssetTypeRepository;
 
 @Service
-public class AssetService {
+public class AssetService implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	private AssetTypeRepository assetTypeRepository;

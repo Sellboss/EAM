@@ -24,7 +24,7 @@
 	</mongo:mongo>
 	<mongo:db-factory dbname="eam" mongo-ref="mongo" />
 	<mongo:repositories base-package="se.sellboss.eam.repository" />
-	
+
 	<!-- Registering beans -->
 	<b:bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<b:constructor-arg ref="mongo" />
@@ -41,5 +41,13 @@
 			</b:map>
 		</b:property>
 	</b:bean>
-
+	<b:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<b:property name="prefix">
+			<b:value>/WEB-INF/</b:value>
+		</b:property>
+		<b:property name="suffix">
+			<b:value>.jsp</b:value>
+		</b:property>
+	</b:bean>
 </b:beans>

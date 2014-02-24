@@ -12,40 +12,13 @@
 		<h:outputText value="Asset Management" />
 	</ui:define>
 
+	<ui:define name="pageHeader">
+		<h:outputText value="Dashboard" />
+	</ui:define>
+
+
 	<ui:define name="content">
 		<h:form id="overviewForm">
-			<p:growl id="mainGrowl" sticky="true" />
-			<p:panelGrid style="width:800px">
-				<f:facet name="header">
-					<p:row>
-						<p:column style="text-align:right">Logged in as: #{loginBean.uname} (<h:commandLink action="#{loginBean.logout}" value="Logout" />)
-							<h:selectOneMenu
-								onchange="window.location=this.options[this.selectedIndex].value">
-								<f:selectItem itemLabel="Administration menu" itemValue="" />
-								<f:selectItem itemLabel="Users" itemValue="/EAM/protected/admin/users.xhtml" />
-							</h:selectOneMenu>
-						</p:column>
-					</p:row>
-				</f:facet>
-			</p:panelGrid>
-
-			<ui:remove>
-				<p:commandButton value="search" icon="ui-icon-search"
-					actionListener="#{productSearchBean.doSearchAsset}"
-					update="dataTable" />
-			</ui:remove>
-
-			<p:tabMenu activeIndex="0">
-				<p:menuitem value="Dashboard"
-					url="${pageContext.request.contextPath}/protected/dashboard.xhtml"
-					icon="ui-icon-star" />
-				<p:menuitem value="Search"
-					url="${pageContext.request.contextPath}/protected/search.xhtml"
-					icon="ui-icon-search" />
-				<p:menuitem value="Add new"
-					url="${pageContext.request.contextPath}/protected/create.xhtml"
-					icon="ui-icon-disk" />
-			</p:tabMenu>
 			<p:layout style="width:800px;height:300px;" id="layout">
 				<p:layoutUnit position="west" resizable="false" size="400"
 					style="border:none;">
@@ -61,11 +34,6 @@
 						style="width:350px;height:250px" />
 				</p:layoutUnit>
 			</p:layout>
-
-
-
-
-
 			<p:lineChart id="linear" value="#{chartBean.linearModel}"
 				legendPosition="e" title="Linear Chart" minY="0" maxY="10"
 				style="height:300px" />

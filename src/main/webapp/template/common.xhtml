@@ -15,37 +15,135 @@
 			<ui:insert name="head" />
 		</f:facet>
 
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<link href="/EAM/resources/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="/EAM/resources/font-awesome/css/font-awesome.css"
+			rel="stylesheet" />
+
+		<link
+			href="/EAM/resources/css/plugins/dataTables/dataTables.bootstrap.css"
+			rel="stylesheet" />
+
+		<link href="/EAM/resources/css/sb-admin.css" rel="stylesheet" />
+
 
 	</h:head>
 
-	<h:body>
-		<h:outputStylesheet name="css/default.css" />
-		<div style="margin: auto; width: 800px;">
-			<ui:remove>
-				<div id="header" class="ui-widget">
-					<div id="logo"
-						style="border: 1px solid #acbece; border-bottom: none;">
-						<p:graphicImage />
-					</div>
-					<div id="logo" style="border: 1px solid #acbece;"></div>
-				</div>
-			</ui:remove>
+	<body>
 
-				<p:growl id="msg" showDetail="true" life="3000" />
-				<p:panelGrid style="width:800px">
-					<f:facet name="header">
-						<p:row>
-							<p:column>Asset Management</p:column>
-						</p:row>
-					</f:facet>
-				</p:panelGrid>
-			<div id="page" class="ui-widget" style="overflow: hidden;">
-				<div id="content" style="display: block">
-					<ui:insert name="content">...</ui:insert>
+		<div id="wrapper">
+
+			<nav class="navbar navbar-default navbar-static-top"
+				role="navigation" style="margin-bottom: 0">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".sidebar-collapse">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/EAM/protected/dashboard.xhtml">Enterprise
+						Asset Manager</a>
 				</div>
+				<!-- /.navbar-header -->
+
+				<h:form id="navForm">
+					<ul class="nav navbar-top-links navbar-right">
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+								<i class="fa fa-caret-down"></i>
+						</a>
+							<ul class="dropdown-menu dropdown-user">
+								<li><a href="#"><i class="fa fa-user fa-fw"></i> User
+										Profile</a></li>
+								<li class="divider"></li>
+								<li><h:commandLink action="#{loginBean.logout}">
+										<i class="fa fa-sign-out fa-fw"></i>
+									Logout</h:commandLink></li>
+							</ul> <!-- /.dropdown-user --></li>
+						<!-- /.dropdown -->
+					</ul>
+				</h:form>
+
+			</nav>
+			<!-- /.navbar-static-top -->
+
+			<nav class="navbar-default navbar-static-side" role="navigation">
+				<div class="sidebar-collapse">
+					<ul class="nav" id="side-menu">
+						<li class="sidebar-search">
+							<div class="input-group custom-search-form"></div> <!-- /input-group -->
+						</li>
+						<li><a href="/EAM/protected/dashboard.xhtml"><i
+								class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
+						<li><a href="/EAM/protected/search.xhtml"><i
+								class="fa fa-table fa-fw"></i> IT Assets</a></li>
+						<li><a href="/EAM/protected/software.xhtml"><i
+								class="fa fa-desktop fa-fw"></i> Software</a></li>
+						<li><a href="/EAM/protected/assetTypes.xhtml"><i
+								class="fa fa-clipboard fa-fw"></i> Asset Types</a></li>
+						<li><a href="#"><i class="fa fa-wrench fa-fw"></i>
+								Settings<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="/EAM/protected/admin/users.xhtml">User
+										Settings</a></li>
+								<li><a href="/EAM/protected/listOfValues.xhtml"> List
+										of Values</a></li>
+							</ul> <!-- /.nav-second-level --></li>
+
+					</ul>
+					<!-- /#side-menu -->
+				</div>
+				<!-- /.sidebar-collapse -->
+			</nav>
+			<!-- /.navbar-static-side -->
+
+			<div id="page-wrapper">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">
+							<ui:insert name="pageHeader">Page Header</ui:insert>
+						</h1>
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+
+				<div id="page" class="ui-widget" style="overflow: hidden;">
+					<div id="content" style="display: block">
+						<ui:insert name="content">...</ui:insert>
+					</div>
+				</div>
+
 			</div>
+			<!-- /#page-wrapper -->
+
 		</div>
-	</h:body>
+
+		<!-- Core Scripts - Include with every page -->
+		<script src="/EAM/resources/js/bootstrap.min.js"></script>
+		<script src="/EAM/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+		<!-- Page-Level Plugin Scripts - Tables -->
+		<script
+			src="/EAM/resources/js/plugins/dataTables/jquery.dataTables.js"></script>
+		<script
+			src="/EAM/resources/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+		<!-- SB Admin Scripts - Include with every page -->
+		<script src="/EAM/resources/js/sb-admin.js"></script>
+
+		<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+		<script>
+			$(document).ready(function() {
+				$('#dataTables-example').dataTable();
+			});
+		</script>
+
+	</body>
+
+
 
 </f:view>
 </html>

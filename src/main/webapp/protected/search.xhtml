@@ -11,121 +11,105 @@
 	<ui:define name="pageTitle">
 		<h:outputText value="Asset Management" />
 	</ui:define>
+	
+	<ui:define name="pageHeader">
+		<h:outputText value="Assets" />
+	</ui:define>
 
 	<ui:define name="content">
 		<h:form id="searchForm">
 			<p:growl id="mainGrowl" sticky="true" />
-			<p:panelGrid style="width:800px">
-				<f:facet name="header">
-					<p:row>
-						<p:column style="text-align:right">Logged in as: #{loginBean.uname} (<h:commandLink
-								action="#{loginBean.logout}" value="Logout" />)
-							<h:selectOneMenu
-								onchange="window.location=this.options[this.selectedIndex].value">
-								<f:selectItem itemLabel="Administration menu" itemValue="" />
-								<f:selectItem itemLabel="Users"
-									itemValue="/EAM/protected/admin/users.xhtml" />
-							</h:selectOneMenu>
-						</p:column>
-					</p:row>
-				</f:facet>
-			</p:panelGrid>
 
-			<p:tabMenu activeIndex="1">
-				<p:menuitem value="Dashboard"
-					url="${pageContext.request.contextPath}/protected/dashboard.xhtml"
-					icon="ui-icon-star" />
-				<p:menuitem value="Search"
-					url="${pageContext.request.contextPath}/protected/search.xhtml"
-					icon="ui-icon-search" />
-				<p:menuitem value="Add new"
-					url="${pageContext.request.contextPath}/protected/create.xhtml"
-					icon="ui-icon-disk" />
-			</p:tabMenu>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="table-responsive">
+						<p:dataTable id="dataTable" var="asset"
+							value="#{assetSearchBean.assetDataModel}" widgetVar="assetTable"
+							emptyMessage="No assets found with given criteria"
+							paginator="false" rows="20"
+							selection="#{assetSearchBean.selectedAsset}"
+							selectionMode="single">
 
-			<p:dataTable id="dataTable" var="asset"
-				value="#{assetSearchBean.assetDataModel}" widgetVar="assetTable"
-				emptyMessage="No assets found with given criteria" paginator="false"
-				rows="20" selection="#{assetSearchBean.selectedAsset}"
-				selectionMode="single">
+							<p:ajax event="rowSelect"
+								update=":searchForm:display, :searchForm:dialog, :searchForm:editButton"
+								oncomplete="PF('assetDialog').show()" />
 
-				<p:ajax event="rowSelect"
-					update=":searchForm:display, :searchForm:dialog, :searchForm:editButton"
-					oncomplete="PF('assetDialog').show()" />
+							<f:facet name="header">
+								<p:outputPanel style="text-align:left; font-size:12px;">
+									<p:inputText id="name"
+										value="#{assetSearchBean.assetCriteria.assetName}" />
+									<p:commandButton value="search" icon="ui-icon-search"
+										actionListener="#{assetSearchBean.doSearchAsset}"
+										update="dataTable"/>
+								</p:outputPanel>
+							</f:facet>
 
-				<f:facet name="header">
-					<p:outputPanel style="width:200px;">
-						<p:inputText id="name"
-							value="#{assetSearchBean.assetCriteria.assetName}" />
-						<p:commandButton value="search" icon="ui-icon-search"
-							actionListener="#{assetSearchBean.doSearchAsset}"
-							update="dataTable" />
-					</p:outputPanel>
-				</f:facet>
+							<ui:remove>
+								<p:column style="font-size:12px;">
+									<f:facet name="header">
+										<h:outputText value="ID" />
+									</f:facet>
+									<h:outputText value="#{asset.id}" />
+								</p:column>
+							</ui:remove>
 
-				<ui:remove>
-					<p:column style="font-size:12px;">
-						<f:facet name="header">
-							<h:outputText value="ID" />
-						</f:facet>
-						<h:outputText value="#{asset.id}" />
-					</p:column>
-				</ui:remove>
+							<p:column style="font-size:12px;">
+								<f:facet name="header">
+									<h:outputText value="Name" />
+								</f:facet>
+								<h:outputText value="#{asset.assetName}" />
+							</p:column>
 
-				<p:column style="font-size:12px;">
-					<f:facet name="header">
-						<h:outputText value="Name" />
-					</f:facet>
-					<h:outputText value="#{asset.assetName}" />
-				</p:column>
+							<p:column style="font-size:12px;">
+								<f:facet name="header">
+									<h:outputText value="Type" />
+								</f:facet>
+								<h:outputText
+									value="#{assetSearchBean.getAssetTypeValue(asset.assetType)}" />
+							</p:column>
 
-				<p:column style="font-size:12px;">
-					<f:facet name="header">
-						<h:outputText value="Type" />
-					</f:facet>
-					<h:outputText
-						value="#{assetSearchBean.getAssetTypeValue(asset.assetType)}" />
-				</p:column>
+							<p:column style="font-size:12px;">
+								<f:facet name="header">
+									<h:outputText value="State" />
+								</f:facet>
+								<h:outputText value="#{asset.assetState}" />
+							</p:column>
 
-				<p:column style="font-size:12px;">
-					<f:facet name="header">
-						<h:outputText value="State" />
-					</f:facet>
-					<h:outputText value="#{asset.assetState}" />
-				</p:column>
+							<p:column style="font-size:12px;">
+								<f:facet name="header">
+									<h:outputText value="Created By" />
+								</f:facet>
+								<h:outputText value="#{asset.createdBy}" />
+							</p:column>
 
-				<p:column style="font-size:12px;">
-					<f:facet name="header">
-						<h:outputText value="Created By" />
-					</f:facet>
-					<h:outputText value="#{asset.createdBy}" />
-				</p:column>
+							<p:column style="font-size:12px;">
+								<f:facet name="header">
+									<h:outputText value="Date Created" />
+								</f:facet>
+								<h:outputText value="#{asset.createdDate}">
+									<f:convertDateTime pattern="yyyy-MM-dd" />
+								</h:outputText>
+							</p:column>
 
-				<p:column style="font-size:12px;">
-					<f:facet name="header">
-						<h:outputText value="Date Created" />
-					</f:facet>
-					<h:outputText value="#{asset.createdDate}">
-						<f:convertDateTime pattern="yyyy-MM-dd" />
-					</h:outputText>
-				</p:column>
+							<p:column style="font-size:12px;">
+								<f:facet name="header">
+									<h:outputText value="Modified By" />
+								</f:facet>
+								<h:outputText value="#{asset.modifiedBy}" />
+							</p:column>
 
-				<p:column style="font-size:12px;">
-					<f:facet name="header">
-						<h:outputText value="Modified By" />
-					</f:facet>
-					<h:outputText value="#{asset.modifiedBy}" />
-				</p:column>
-
-				<p:column style="font-size:12px;">
-					<f:facet name="header">
-						<h:outputText value="Date Modified" />
-					</f:facet>
-					<h:outputText value="#{asset.modifiedDate}">
-						<f:convertDateTime pattern="yyyy-MM-dd" />
-					</h:outputText>
-				</p:column>
-			</p:dataTable>
+							<p:column style="font-size:12px;">
+								<f:facet name="header">
+									<h:outputText value="Date Modified" />
+								</f:facet>
+								<h:outputText value="#{asset.modifiedDate}">
+									<f:convertDateTime pattern="yyyy-MM-dd" />
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
 
 			<p:dialog id="dialog" header="Asset Details" widgetVar="assetDialog"
 				resizable="true" showEffect="fade" hideEffect="fade">
@@ -141,7 +125,6 @@
 					<f:param name="assetId" value="#{assetSearchBean.selectedAsset.id}" />
 				</p:button>
 			</p:dialog>
-
 		</h:form>
 	</ui:define>
 </ui:composition>
