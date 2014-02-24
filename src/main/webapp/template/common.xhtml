@@ -51,6 +51,7 @@
 
 				<h:form id="navForm">
 					<ul class="nav navbar-top-links navbar-right">
+					Logged in as: <b>#{loginBean.uname}</b>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
 								<i class="fa fa-caret-down"></i>
@@ -61,8 +62,9 @@
 								<li class="divider"></li>
 								<li><h:commandLink action="#{loginBean.logout}">
 										<i class="fa fa-sign-out fa-fw"></i>
-									Logout</h:commandLink></li>
-							</ul> <!-- /.dropdown-user --></li>
+									Logout
+									</h:commandLink></li>
+							</ul></li>
 						<!-- /.dropdown -->
 					</ul>
 				</h:form>
